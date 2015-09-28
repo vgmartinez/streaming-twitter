@@ -1,6 +1,6 @@
 import AssemblyKeys._
 
-name := "Simple Project"
+name := "StreamingML"
 
 version := "1.0"
 
