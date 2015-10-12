@@ -3,7 +3,6 @@ import scala.collection.mutable.HashMap
 import java.io.File
 import org.apache.log4j.Logger
 import org.apache.log4j.Level
-import scala.util.matching.Regex
 import sys.process.stringSeqToProcess
 import org.apache.spark.mllib.feature.HashingTF
 import org.apache.spark.mllib.linalg.Vector
@@ -36,16 +35,33 @@ object utils {
     println()
   }
 
-  def getFieldMatch(fieldName: String): Regex = {
-    f""".*"$fieldName%s":"([^"]*)",".*""".r
+  /** Returns the Spark URL */
+  def getSparkUrl(): String = {
+    val file = new File("/root/spark-ec2/cluster-url")
+    if (file.exists) {
+      val url = Source.fromFile(file.toString).getLines.toSeq.head
+      url
+    } else if (new File("../local").exists) {
+      "local[4]"
+    } else {
+      throw new Exception("Could not find " + file)
+    }
   }
 
-  def extract_field(tweet: String, field: String): String = {
-    val fieldMatch = getFieldMatch(field)
-    val res = tweet match {
-      case fieldMatch(text) => text
-      case _ => ""
+  /** Returns the HDFS URL */
+  def getCheckpointDirectory(): String = {
+    try {
+      val name : String = Seq("bash", "-c", "curl -s http://169.254.169.254/latest/meta-data/hostname") !! ;
+      println("Hostname = " + name)
+      "hdfs://" + name.trim + ":9000/checkpoint/"
+    } catch {
+      case e: Exception => {
+        "./checkpoint/"
+      }
     }
-    return res
+  }
+
+  def featurize(s: String): Vector = {
+    tf.transform(s.sliding(2).toSeq)
   }
 }
