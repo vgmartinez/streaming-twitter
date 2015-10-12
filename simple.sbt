@@ -6,16 +6,17 @@ version := "1.0"
 
 scalaVersion := "2.10.4"
 
+val SPARK_VERSION = "1.4.0"
 
-libraryDependencies += "org.apache.spark" %% "spark-core" % "1.4.0" % "provided"
+libraryDependencies += "org.apache.spark" %% "spark-core" % SPARK_VERSION
 
-libraryDependencies += "org.apache.spark" %% "spark-mllib" % "1.4.0" % "provided"
+libraryDependencies += "org.apache.spark" %% "spark-mllib" % SPARK_VERSION
 
-libraryDependencies += "org.apache.spark" %% "spark-sql" % "1.4.0" % "provided"
+libraryDependencies += "org.apache.spark" %% "spark-sql" % SPARK_VERSION
 
-libraryDependencies += "org.apache.spark" %% "spark-streaming" % "1.4.0" % "provided"
+libraryDependencies += "org.apache.spark" %% "spark-streaming" % SPARK_VERSION
 
-libraryDependencies += "org.apache.spark" %% "spark-streaming-twitter" % "1.4.0"
+libraryDependencies += "org.apache.spark" %% "spark-streaming-twitter" % SPARK_VERSION
 
 libraryDependencies += "com.google.code.gson" % "gson" % "2.3"
 
